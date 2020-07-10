@@ -22,8 +22,8 @@ To install the package under version >= 1.0 use the package manager
 Load the julia package by
 
     ```julia
-      using Null_models_I_and_II
-     ```
+        using Null_models_I_and_II
+        ```
 
 # Output
 
