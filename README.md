@@ -32,7 +32,7 @@ This software provide two main functions ```sample_from_Null_model_I(infile::Str
 
 # Output
 
-The functions output a type Array{Char,2} wich describe a matrix of aminoacids letters, then if outfile is not empty then the output alignment is exported in fasta format.
+The functions output a type Array{Char,2} wich describe a matrix of aminoacids letters, then if outfile is not empty then the output alignment is exported as a text file in fasta format.
 
 
 # Requirements
