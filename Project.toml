@@ -1,0 +1,13 @@
+name = "Null_models_I_and_II"
+uuid = "d63ad38c-1479-4020-934c-446a2b3d9b11"
+authors = ["edwin <erodriguezh1990@gmail.com> and contributors"]
+version = "0.1.0"
+
+[compat]
+julia = "1"
+
+[extras]
+Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
+
+[targets]
+test = ["Test"]
