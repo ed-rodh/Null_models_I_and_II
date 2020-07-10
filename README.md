@@ -1,6 +1,6 @@
 # Null_models_I_and_II
 
- Simulating annealing based strategies to randomize sequences data composed by:
+ Simulating annealing based strategies to randomize sequences data, there is two strategies:
  
   + Null model I: ramdomizes the input MSA by conserving the single columns statistics.
  
