@@ -12,12 +12,18 @@ The code now requires at least Julia version 1.0 or later.
 
 # Install
 To install the package under version >= 1.0 use the package manager 
+
 (v1.?) pkg> add https://github.com/ed-rodh/Null_models_I_and_II
 
 # Overview
 
 
 # Usage
+Load the julia package by
+
+    ```julia
+      using Null_models_I_and_II
+     ```
 
 # Output
 
