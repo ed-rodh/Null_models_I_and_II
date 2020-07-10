@@ -35,7 +35,7 @@ We also provide other usefull functions:
  + ```translate_fasta_to_num_matrix(msa_fasta::String,...)``` to read the MSA as fasta file and transform to a MSA as a matrix of numbers.
  + ```transform_MSA_fasta(msa::Array{Int64,2},...)``` transform MSA from numbers to letters.
  + ```export_fasta_file(outfile::String,msa::Array{Char,2})``` export a MSA in fasta format from a matrix of letters.
- + ```PairwiseHammingDist(sample::Array{Int64,2})``` compute the sequences pairwise distance from a alignment of numeric sequences.
+ + ```PairwiseHammingDist(sample::Array{Int64,2})``` compute the sequences pairwise hamming distance from sequences of numbers stored in the matrix "sample".
 
 # Output
 
