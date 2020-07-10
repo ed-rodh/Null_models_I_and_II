@@ -16,7 +16,7 @@ There is two strategies:
  
   + Null model II: randomizes the input MSA preserving both single columns statistics and pairwise hamming distances between sequences.
    
-This sofware assume that each entry of the MSA is a letter in A={-, A, C, ..., Y} being either one of the 20 amino acids, or an alignment gap, “–”, representing amino acid insertions or deletions. The total alphabet size is q = |A| = 21. The mapping of this alignments to matrix of numbers assume {-, A, C, ..., Y} -> {1, 2, 3,..., 21}. 
+This sofware assume that each entry of the MSA is a letter in {-, A, C, ..., Y} being either one of the 20 amino acids, or an alignment gap, “–”, representing amino acid insertions or deletions. The total alphabet size is q = 21. The mapping of this alignments to matrix of numbers assume {-, A, C, ..., Y} -> {1, 2, 3,..., 21}. 
 
 # Usage
 Load the julia package by
