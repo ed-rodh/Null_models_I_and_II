@@ -37,5 +37,5 @@ The functions output a type Array{Char,2} wich describe a matrix of aminoacids (
 => For a quick test we recommend the alignment included in Null_models_I_and_II/data_test
 # Requirements
 
-The code now requires at least Julia version 1.0 or later.
+The code requires at least Julia version 1.0 or later.
 
