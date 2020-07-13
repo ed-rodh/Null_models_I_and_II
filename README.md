@@ -39,7 +39,7 @@ This code provide two main functions: ```sample_from_Null_model_I(infile::String
 For function ```sample_from_Null_model_II()``` a gradual reduction of the temperature toward minimal temperature ('min_temp') is carried out by a linear annealing schedule with two slopes characterized by parameters 'T_factor_fast' and 'T_factor_slow'.
    + 'T_factor_fast' represent the rate of temperature reduction for high temperatures where the system is expected to wander initially towards a broad region of the search space (acceptance rate high).  
    + 'T_factor_slow'  represent the cooling rate at low temperatures where the search space become narrower (acceptance rate small).
-   + This code assume parameter min_temp="default" wich means that min_temp=2/(10*M)  where M is the number of sequences in the MSA.
+   + This code assume parameter min_temp="default" which means that min_temp=2/(10*M)  where M is the number of sequences in the MSA.
    + The parameter num_iter_max stand for the maximum number of swaps to attempt.    
 
 We also provide other potentially useful functions:
