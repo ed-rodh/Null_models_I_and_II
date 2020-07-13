@@ -29,7 +29,7 @@ After installation, load the Julia package by
  ```julia
  julia> using Null_models_I_and_II
  ```
-This code provide two main functions: ```sample_from_Null_model_I(infile::String;outfile="",shuffle_temp=10.0)``` and ```sample_from_Null_model_II(infile::String;outfile="",shuffle=1,shuffle_temp=10.0,T_factor_slow=0.8,T_factor_fast=0.1,min_temp="default",num_iter_max=20000000)``` which are in charge of generating new sequence data according to null models I and II as described above. Function ```sample_from_Null_model_I()``` is faster while ```sample_from_Null_model_II()``` may become very slow for deep MSA.. 
+This code provide two main functions: ```sample_from_Null_model_I(infile::String;outfile="",shuffle_temp=10.0)``` and ```sample_from_Null_model_II(infile::String;outfile="",shuffle=1,shuffle_temp=10.0,T_factor_slow=0.8,T_factor_fast=0.1,min_temp="default",num_iter_max=20000000)``` which are in charge of generating new sequence data according to null models I and II as described above. Function ```sample_from_Null_model_I()``` is faster while ```sample_from_Null_model_II()``` may become very slow for deep MSA.
 
  + Both functions take as input a file containing a protein MSA in fasta format(parameter "infile"). 
  + The optional parameter "outfile" gives the name for the text file, where the output MSA is exported to.
@@ -39,8 +39,8 @@ This code provide two main functions: ```sample_from_Null_model_I(infile::String
 For function ```sample_from_Null_model_II()``` a gradual reduction of the temperature toward minimal temperature ('min_temp') is carried out by a linear annealing schedule with two slopes characterized by parameters 'T_factor_fast' and 'T_factor_slow'.
    + 'T_factor_fast' represent the rate of temperature reduction for high temperatures where the system is expected to wander initially towards a broad region of the search space (acceptance rate high).  
    + 'T_factor_slow'  represent the cooling rate at low temperatures where the search space become narrower (acceptance rate small).
-   + This code assume a default 'min_temp' parameter  linked to the number of sequences in the MSA: min_temp=2/(10*M).
-   + The parameter num_iter_max stand for the maximum number of swaps attempted.    
+   + This code assume parameter min_temp="default" wich means that min_temp=2/(10*M)  where M is the number of sequences in the MSA.
+   + The parameter num_iter_max stand for the maximum number of swaps to attempt.    
 
 We also provide other potentially useful functions:
  + ```translate_fasta_to_num_matrix(msa_fasta::String,...)``` to read the MSA as fasta file and transform to an MSA as a matrix of numbers. The mapping is {-, A, C, ..., Y} -> {1, 2, 3,..., 21}.
