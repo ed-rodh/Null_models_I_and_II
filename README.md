@@ -21,7 +21,7 @@ There are two strategies:
   + Null model I: ramdomizes the input multiple sequence alignments (MSA) by preserving the single columns statistics. The null model is thought to preserve conservation-related information, but to destroy any correlation due to phylogeny or residue coevolution.
   + Null model II: randomizes the input multiple sequence alignments (MSA) preserving both single columns statistics and pairwise hamming distances between sequences. The null model is thought to preserve conservation- and phylogeny-related information, but to destroy any correlation due to residue coevolution.
    
-The code runs on MSA of amino-acid sequences in fast format. It assume that each entry of the MSA is a letter in { A, C, ..., Y,-} being either one of the 20 amino acids or the alignment gap “–”. The total alphabet size is q = 21.
+The code runs on MSA of amino-acid sequences in fasta format. It assume that each entry of the MSA is a letter in { A, C, ..., Y,-} being either one of the 20 amino acids or the alignment gap “–”. The total alphabet size is q = 21.
 
 # Usage
 After installation, load the Julia package by
