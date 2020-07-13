@@ -6,6 +6,7 @@ A complete description of the algorithm can be found in
 
 Edwin Rodriguez Horta & Martin Weigt,Phylogenetic correlations have limited effect on coevolution-based contact prediction in proteins, xxx.
 Please cite this paper in any publication using our codes.
+
 The codes are written in Julia (https://julialang.org/ ) and require Version 1.0 or later.
 
 # Install
