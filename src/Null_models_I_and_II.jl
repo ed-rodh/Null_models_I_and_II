@@ -3,7 +3,7 @@ module Null_models_I_and_II
 include("utils.jl")
 using LinearAlgebra
 
-## we use this map 
+## we use this mapping 
 D21=Dict{Int64,Char}(1 =>'-',2 =>'A',3 =>'C',4 =>'D',5 =>'E',6 =>'F',7 =>'G',8 =>'H',9 =>'I',10 =>'K',11 =>'L',12 =>'M',13 =>'N',14=>'P',15=>'Q',16 =>'R',17=>'S',18 =>'T',19 =>'V',20 =>'W',21 =>'Y')
 Di21=Dict{Char,Int64}('-'=>1,'A'=>2,'C'=>3,'D'=>4,'E'=>5,'F'=>6,'G'=>7,'H'=>8,'I'=>9,'K'=>10,'L'=>11,'M'=>12,'N'=>13,'P'=>14,'Q'=>15,'R'=>16,'S'=>17,'T'=>18,'V'=>19,'W'=>20,'Y'=>21)
 
@@ -13,7 +13,7 @@ function deltak(i::Int64,j::Int64)
   i==j ? 1.0 : 0.0
     end
 
-##compute hamming distance matrix D
+###compute hamming distance matrix D
  function PairwiseHammingDist(sample::Array{Int64,2})
     Y=sample[1:end,1:end]
     Y = Y'
@@ -42,7 +42,7 @@ function swap_align!(align::Array{Int64,2},m1::Int64,m2::Int64,k::Int64)
     align[m2,k]=alpha
 end
 
-## cost function
+### cost function
 function Energy(dtarget::Array{Float64,2},dnew::Array{Float64,2})
  return sum((dtarget .- dnew) .^2)
 end 
@@ -142,17 +142,18 @@ end
  
     end      
 
-function update_param_SA(alignment::Array{Int64,2},alignment_best::Array{Int64,2},n_it_tot::Int64,n_it_current::Int64,flag::Int64,acceptance_rate::Float64, energy_min ::Float64,energy_min_prev ::Float64,energy::Float64,T::Float64)
+function update_param_SA(alignment::Array{Int64,2},alignment_best::Array{Int64,2},n_it_tot::Int64,n_it_current::Int64,flag::Int64,acceptance_rate::Float64, energy_min ::Float64,energy_min_prev ::Float64,energy::Float64,T_init::Float64,T_min::Float64,n_it_max::Int64,T_factor_slow::Float64,T_factor_fast::Float64)
  (M,L)=size(alignment)
  stop_condition = 0
- n_it_max = 20000000#N_IT_MAX;
+ n_it_max =n_it_max#N_IT_MAX;
  flag_max = 100;   
  n_swap_min = convert(Int64,round(M*L/5))
  acceptance_threshold_low = 0.0001 
  acceptance_threshold_high = 0.95
- T_min = 2/(10*M)
- T_factor_slow = 0.8#T_FACTOR_SLOW, 
- T_factor_fast = 0.1#T_FACTOR_FAST;
+ T=T_init
+ T_min = T_min#2/(10*M)
+ #T_factor_slow =T_factor_slow#T_FACTOR_SLOW, 
+ #T_factor_fast =T_factor_slow#T_FACTOR_FAST;
 
  #Update number of iterations for next MCMC
     if acceptance_rate!=0
@@ -208,7 +209,7 @@ function shuffle_alignment(alignment::Array{Int64,2},T::Float64,d_curr::Array{Fl
  stop_condition = 0
  stop_condition_max = 100
  err_l2 = compute_l2_error(d_curr, d_target)
-  d_pos=zeros(M,M)
+ d_pos=zeros(M,M)
 
     while stop_condition<stop_condition_max
         n_swap_done = 0
@@ -234,7 +235,7 @@ function shuffle_alignment(alignment::Array{Int64,2},T::Float64,d_curr::Array{Fl
 end 
 
 ### run simmulating annealing with a linear cooling scheme with two slopes
-function run_SA(align::Array{Int64,2},T_init::Float64,shuffle::Int64,d_curr::Array{Float64,2}, d_target::Array{Float64,2})
+function run_SA(align::Array{Int64,2},T_init::Float64,T_min::Float64,T_factor_slow::Float64,T_factor_fast::Float64,shuffle::Int64,num_iter_max::Int64,d_curr::Array{Float64,2},d_target::Array{Float64,2})
     
     (M,L)=size(align)
     T = T_init
@@ -242,7 +243,7 @@ function run_SA(align::Array{Int64,2},T_init::Float64,shuffle::Int64,d_curr::Arr
     energy_min=0.0
     energy_min_prev=100.0
     acceptance_rate = 0.0; 
-    n_it_max = 20000000
+    n_it_max = num_iter_max
     n_it_current = 1
     n_it_tot = 0
     stop_condition = 0 
@@ -313,7 +314,7 @@ function run_SA(align::Array{Int64,2},T_init::Float64,shuffle::Int64,d_curr::Arr
   println("n_it_tot:$(n_it_tot)")
 
  ## Updating parameters
- (stop_condition,align,n_it_current,flag,energy,T)=update_param_SA(align,alignment_best,n_it_tot,n_it_current,flag,acceptance_rate, energy_min ,energy_min_prev,energy,T)   
+ (stop_condition,align,n_it_current,flag,energy,T)=update_param_SA(align,alignment_best,n_it_tot,n_it_current,flag,acceptance_rate, energy_min,energy_min_prev,energy,T,T_min,n_it_max,T_factor_slow,T_factor_fast)   
  
     end
 
@@ -326,10 +327,26 @@ function run_SA(align::Array{Int64,2},T_init::Float64,shuffle::Int64,d_curr::Arr
 end
 
 ####### given a MSA in numeric format this function provide a randomized MSA according to Null-model II
-function sample_from_Null_model_II(infile::String;outfile="",schuffle=1,init_temp=10.0)
-  msa=translate_fasta_to_num_matrix(infile,Di21)	  
+function sample_from_Null_model_II(infile::String;outfile="",shuffle=1,shuffle_temp=10.0,T_factor_slow=0.8,T_factor_fast=0.1,min_temp="default",num_iter_max=20000000)
+  msa=translate_fasta_to_num_matrix(infile,Di21)
   dtarget=PairwiseHammingDist(msa);
-  result=run_SA(msa,init_temp,schuffle,dtarget,dtarget)
+  (M,L)=size(msa)
+  if min_temp=="default"
+  	t_min=2/(10*M)
+  else
+  	t_min=min_temp
+  end
+  println("Parameters:")
+  if shuffle==1
+     println("Simulating annealing start from shuffled alignment at T=$(shuffle_temp)")
+  end 
+  println("minimal temperature  T_min=$(t_min)")
+  println("slow cooling rate = $(T_factor_slow), fast cooling rate = $(T_factor_fast)")
+  println("maximum number of iterations $(num_iter_max)")
+
+
+
+  result=run_SA(msa,shuffle_temp,t_min,T_factor_slow,T_factor_fast,shuffle,num_iter_max,dtarget,dtarget)
   msa_fasta=transform_MSA_fasta(result,D21)
   if !isempty(outfile)
   export_fasta_file(outfile,msa_fasta)
@@ -338,10 +355,12 @@ function sample_from_Null_model_II(infile::String;outfile="",schuffle=1,init_tem
  return msa_fasta
 end
 ####### given a MSA in numeric format this function provide a randomized MSA according to Null-model I
-function sample_from_Null_model_I(infile::String;outfile="",Temp=10.0)
+function sample_from_Null_model_I(infile::String;outfile="",shuffle_temp=10.0)
   msa=translate_fasta_to_num_matrix(infile,Di21)	
+  println("Shuffling alignment at T=$(shuffle_temp)")
+  
   dtarget=PairwiseHammingDist(msa);
-  shuffle_alignment(msa,Temp,dtarget,dtarget)
+  shuffle_alignment(msa,shuffle_temp,dtarget,dtarget)
   msa_fasta=transform_MSA_fasta(msa,D21)
   if !isempty(outfile)
   export_fasta_file(outfile,msa_fasta)
@@ -350,6 +369,7 @@ function sample_from_Null_model_I(infile::String;outfile="",Temp=10.0)
 
  return msa_fasta
 end
+
 
 
 end
