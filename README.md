@@ -40,7 +40,7 @@ For function ```sample_from_Null_model_II()``` a gradual reduction of the temper
    + 'T_factor_fast' represent the rate of temperature reduction for high temperatures where the system is expected to wander initially towards a broad region of the search space (acceptance rate high).  
    + 'T_factor_slow'  represent the cooling rate at low temperatures where search space become narrower (acceptance rate small).
    + This code assume a default 'min_temp' parameter  linked to the number of sequences in the MSA: min_temp=2/(10*M).
-   + The parameter num_iter_max stand for the number max of swaps attempted.    
+   + The parameter num_iter_max stand for the maximum number of swaps attempted.    
 
 We also provide other potentially useful functions:
  + ```translate_fasta_to_num_matrix(msa_fasta::String,...)``` to read the MSA as fasta file and transform to an MSA as a matrix of numbers. The mapping is {-, A, C, ..., Y} -> {1, 2, 3,..., 21}.
