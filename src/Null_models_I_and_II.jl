@@ -360,7 +360,7 @@ end
 
 ####### given a MSA in numeric format this function provide a randomized MSA according to Null-model II
 function sample_from_Null_model_II(infile::String;outfile="",shuffle=1,shuffle_temp=10.0,T_factor_slow=0.8,T_factor_fast=0.1,min_temp="default",num_iter_max=20000000)
-  msa=translate_fasta_to_num_matrix(infile,Di21)
+  msa=translate_fasta_to_num_matrix(infile)
   dtarget=PairwiseHammingDist(msa);
   (M,L)=size(msa)
   if min_temp=="default"
@@ -379,7 +379,7 @@ function sample_from_Null_model_II(infile::String;outfile="",shuffle=1,shuffle_t
 
 
   result=run_SA(msa,shuffle_temp,t_min,T_factor_slow,T_factor_fast,shuffle,num_iter_max,dtarget,dtarget)
-  msa_fasta=transform_MSA_fasta(result,D21)
+  msa_fasta=transform_MSA_fasta(result)
   if !isempty(outfile)
   export_fasta_file(outfile,msa_fasta)
   println("randomized MSA has been exported with fasta format!!")
