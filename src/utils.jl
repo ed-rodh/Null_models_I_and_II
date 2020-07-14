@@ -1,4 +1,8 @@
 using DelimitedFiles
+
+D21=Dict{Int64,Char}(1 =>'-',2 =>'A',3 =>'C',4 =>'D',5 =>'E',6 =>'F',7 =>'G',8 =>'H',9 =>'I',10 =>'K',11 =>'L',12 =>'M',13 =>'N',14=>'P',15=>'Q',16 =>'R',17=>'S',18 =>'T',19 =>'V',20 =>'W',21 =>'Y')
+Di21=Dict{Char,Int64}('-'=>1,'A'=>2,'C'=>3,'D'=>4,'E'=>5,'F'=>6,'G'=>7,'H'=>8,'I'=>9,'K'=>10,'L'=>11,'M'=>12,'N'=>13,'P'=>14,'Q'=>15,'R'=>16,'S'=>17,'T'=>18,'V'=>19,'W'=>20,'Y'=>21)
+
 function readmsanum(infile::String ; format=1, header=false)
 	Y = Array{Float64,2}(undef,0,0)
 	try 
@@ -35,8 +39,8 @@ function transform_seq(seq::Any,D::Dict{Char,Int64})
 end 
 
 
-#read the MSA as fasta file and transform to a MSA as a matrix of numbers in [1,21].
-function translate_fasta_to_num_matrix(msa_fasta::String,D::Dict{Char,Int64})
+#read the MSA as fasta file and transform to a MSA as a matrix of numbers in {1,...,21}.
+function translate_fasta_to_num_matrix(msa_fasta::String)
     pfam_sa = readlines(msa_fasta);
     M=Int(length(pfam_sa)/2)
     L=length(pfam_sa[2])
@@ -44,7 +48,7 @@ function translate_fasta_to_num_matrix(msa_fasta::String,D::Dict{Char,Int64})
     index=1
 	for i in 1:length(pfam_sa)
         if i%2==0
-         let_msa[index,:].=transform_seq(pfam_sa[i],D)
+         let_msa[index,:].=transform_seq(pfam_sa[i],Di21)
             index+=1
 		end
 	    
@@ -69,12 +73,12 @@ end
 end
 
 #transform MSA from num to letters
-function transform_MSA_fasta(msa::Array{Int64,2},D::Dict{Int64,Char})
+function transform_MSA_fasta(msa::Array{Int64,2})
 	(N,L)=size(msa)
 	let_msa=Array{Char}(undef,N,L);
 	for i in 1:N
 		for j in 1:L
-		 let_msa[i,j]=D[msa[i,j]]   
+		 let_msa[i,j]=D21[msa[i,j]]   
         end
 	    
 	end
