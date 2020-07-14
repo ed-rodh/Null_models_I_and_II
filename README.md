@@ -46,7 +46,7 @@ We also provide other potentially useful functions:
  + ```translate_fasta_to_num_matrix(msa_fasta::String,...)``` to read the MSA as fasta file and transform to an MSA as a matrix of numbers. The mapping is {-, A, C, ..., Y} -> {1, 2, 3,..., 21}.
  + ```transform_MSA_fasta(msa::Array{Int64,2},...)``` transforms an MSA from numbers to letters, using the inverse mapping {1, 2, 3,..., 21} -> {-, A, C, ..., Y}.
  + ```export_fasta_file(outfile::String,msa::Array{Char,2})``` export a MSA in fasta format from a matrix of letters.
- + ```PairwiseHammingDist(sample::Any)``` computes all pairwise Hamming distances between sequences from a MSA stored in 'sample'.
+ + ```PairwiseHammingDist(sample::Any)``` computes all pairwise Hamming distances between sequences from a MSA stored in 'sample' ('sample' can be a matrix of numbers of type Array{Int64,2} or a matrix of letters of type Array{Char,2} or the name of the fasta file).
 # Output
 
 The functions output a type Array{Char,2}, which describes a matrix of aminoacids (letters). If “outfile” isn’t empty the output MSA is exported to the indicated text file in fasta format.
