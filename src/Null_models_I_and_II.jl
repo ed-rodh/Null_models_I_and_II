@@ -361,7 +361,7 @@ end
 ####### given a MSA in numeric format this function provide a randomized MSA according to Null-model I
 function sample_from_Null_model_I(infile::String;outfile="",shuffle_temp=10.0)
   msa=translate_fasta_to_num_matrix(infile)	
-  println("Shuffling alignment at T=$(shuffle_temp)")
+  println("Shuffling alignment")
   
   dtarget=PairwiseHammingDist(msa);
   shuffle_alignment(msa,shuffle_temp,dtarget,dtarget)
@@ -388,7 +388,7 @@ function sample_from_Null_model_II(infile::String;outfile="",shuffle=1,shuffle_t
   end
   println("Parameters:")
   if shuffle==1
-     println("Simulating annealing start from shuffled alignment at T=$(shuffle_temp)")
+     println("Simulating annealing start from shuffled alignment")
   end 
   println("minimal temperature  T_min=$(t_min)")
   println("slow cooling rate = $(T_factor_slow), fast cooling rate = $(T_factor_fast)")
