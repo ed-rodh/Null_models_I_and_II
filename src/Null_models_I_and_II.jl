@@ -31,6 +31,56 @@ function deltak(i::Int64,j::Int64)
     return hav
 end
 
+#compute hamming distance matrix D from fasta file
+function PairwiseHammingDist(sample::String)
+	sample=translate_fasta_to_num_matrix(sample)
+    Y=sample[1:end,1:end]
+    Y = Y'
+    (N,M) = size(Y)
+    hav = zeros(M,M)
+    
+  @inbounds  for m in 1:M
+               for n in (m+1):M
+                hd = 0.
+                for i = 1:N
+                 hd += Y[i,m]!=Y[i,n]
+                 end
+               hd = hd / N
+            
+              hav[m,n] = hav[n,m]=hd
+               end
+              end
+    return hav
+end
+#compute hamming distance matrix D from  matrix of letters
+
+function PairwiseHammingDist(sample::Array{Char,2})
+    (M,N)=size(sample)
+	Y=Array{Int}(undef,M,N);
+	for i in 1:M
+		for j in 1:N
+         Y[i,j]=Di21[sample[i,j]]   
+        end
+    end
+
+    Y = Y'
+    hav = zeros(M,M)
+    
+  @inbounds  for m in 1:M
+               for n in (m+1):M
+                hd = 0.
+                for i = 1:N
+                 hd += Y[i,m]!=Y[i,n]
+                 end
+               hd = hd / N
+            
+              hav[m,n] = hav[n,m]=hd
+               end
+              end
+    return hav
+end
+
+
 #given column k and two rows m,n an exchange of the align entries a_km and a_kn is attempted.
 function swap_align!(align::Array{Int64,2},m1::Int64,m2::Int64,k::Int64)
     alpha=align[m1,k]
