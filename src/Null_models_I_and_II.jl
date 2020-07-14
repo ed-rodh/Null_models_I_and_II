@@ -358,6 +358,24 @@ function run_SA(align::Array{Int64,2},T_init::Float64,T_min::Float64,T_factor_sl
 
 end
 
+####### given a MSA in numeric format this function provide a randomized MSA according to Null-model I
+function sample_from_Null_model_I(infile::String;outfile="",shuffle_temp=10.0)
+  msa=translate_fasta_to_num_matrix(infile)	
+  println("Shuffling alignment at T=$(shuffle_temp)")
+  
+  dtarget=PairwiseHammingDist(msa);
+  shuffle_alignment(msa,shuffle_temp,dtarget,dtarget)
+  msa_fasta=transform_MSA_fasta(msa)
+  if !isempty(outfile)
+  export_fasta_file(outfile,msa_fasta)
+  println("randomized MSA has been exported with fasta format!!")
+  end
+
+ return msa_fasta
+end
+
+
+
 ####### given a MSA in numeric format this function provide a randomized MSA according to Null-model II
 function sample_from_Null_model_II(infile::String;outfile="",shuffle=1,shuffle_temp=10.0,T_factor_slow=0.8,T_factor_fast=0.1,min_temp="default",num_iter_max=20000000)
   msa=translate_fasta_to_num_matrix(infile)
@@ -384,21 +402,6 @@ function sample_from_Null_model_II(infile::String;outfile="",shuffle=1,shuffle_t
   export_fasta_file(outfile,msa_fasta)
   println("randomized MSA has been exported with fasta format!!")
   end
- return msa_fasta
-end
-####### given a MSA in numeric format this function provide a randomized MSA according to Null-model I
-function sample_from_Null_model_I(infile::String;outfile="",shuffle_temp=10.0)
-  msa=translate_fasta_to_num_matrix(infile)	
-  println("Shuffling alignment at T=$(shuffle_temp)")
-  
-  dtarget=PairwiseHammingDist(msa);
-  shuffle_alignment(msa,shuffle_temp,dtarget,dtarget)
-  msa_fasta=transform_MSA_fasta(msa)
-  if !isempty(outfile)
-  export_fasta_file(outfile,msa_fasta)
-  println("randomized MSA has been exported with fasta format!!")
-  end
-
  return msa_fasta
 end
 
