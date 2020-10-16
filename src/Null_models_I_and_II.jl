@@ -1,6 +1,6 @@
 module Null_models_I_and_II
 using LinearAlgebra
-
+using DelimitedFiles
 
 export sample_from_Null_model_I, sample_from_Null_model_II, PairwiseHammingDist,translate_fasta_to_num_matrix, transform_MSA_fasta, export_fasta_file
 include("utils.jl")
@@ -377,9 +377,14 @@ end
 
 
 ####### given a MSA in numeric format this function provide a randomized MSA according to Null-model II
-function sample_from_Null_model_II(infile::String;outfile="",shuffle=1,shuffle_temp=10.0,T_factor_slow=0.8,T_factor_fast=0.1,min_temp="default",num_iter_max=20000000)
+function sample_from_Null_model_II(infile::String;outfile="",target_dist="",shuffle=1,shuffle_temp=10.0,T_factor_slow=0.8,T_factor_fast=0.1,min_temp="default",num_iter_max=20000000)
   msa=translate_fasta_to_num_matrix(infile)
-  dtarget=PairwiseHammingDist(msa);
+   if !isempty(target_dist) 	
+     dtarget=readdlm(traget_dist)
+    else
+    dtarget=PairwiseHammingDist(msa);	
+   end 		
+	
   (M,L)=size(msa)
   if min_temp=="default"
   	t_min=2/(10*M)
