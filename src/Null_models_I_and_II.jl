@@ -380,7 +380,7 @@ end
 function sample_from_Null_model_II(infile::String;outfile="",target_dist="",shuffle=1,shuffle_temp=10.0,T_factor_slow=0.8,T_factor_fast=0.1,min_temp="default",num_iter_max=20000000)
   msa=translate_fasta_to_num_matrix(infile)
    if !isempty(target_dist) 	
-     dtarget=readdlm(traget_dist)
+     dtarget=readdlm(target_dist)
     else
     dtarget=PairwiseHammingDist(msa);	
    end 		
