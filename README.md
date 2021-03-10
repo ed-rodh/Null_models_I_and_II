@@ -29,7 +29,7 @@ After installation, load the Julia package by
  ```julia
  julia> using Null_models_I_and_II
  ```
-This code provide two main functions: ```sample_from_Null_model_I(infile::String;outfile="",shuffle_temp=1.0)``` and ```sample_from_Null_model_II(infile::String;outfile="",shuffle=1,shuffle_temp=1.0,T_factor_slow=0.8,T_factor_fast=0.1,min_temp="default",num_iter_max=20000000)``` which are in charge of generating new sequence data according to null models I and II as described above. Function ```sample_from_Null_model_I()``` is faster while ```sample_from_Null_model_II()``` may become very slow for deep MSA.
+This code provide two main functions: ```sample_from_Null_model_I(infile::String;outfile="",shuffle_temp=2.0)``` and ```sample_from_Null_model_II(infile::String;outfile="",shuffle=1,shuffle_temp=2.0,T_factor_slow=0.8,T_factor_fast=0.1,min_temp="default",num_iter_max=20000000)``` which are in charge of generating new sequence data according to null models I and II as described above. Function ```sample_from_Null_model_I()``` is faster while ```sample_from_Null_model_II()``` may become very slow for deep MSA.
 
  + Both functions take as input a file containing a protein MSA in fasta format(parameter "infile"). 
  + The optional parameter "outfile" gives the name for the text file, where the output MSA is exported to.
