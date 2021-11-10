@@ -4,7 +4,7 @@
  
 A complete description of the algorithm can be found in
 
-Edwin Rodriguez Horta & Martin Weigt,Phylogenetic correlations have limited effect on coevolution-based contact prediction in proteins, xxx.
+Edwin Rodriguez Horta & Martin Weigt,On the effect of phylogenetic correlations in coevolution-based contact prediction in proteins,PLoS Comput Biol 17(5): e1008957. https://doi.org/10.1371/journal.pcbi.1008957.
 
 Please cite this paper in any publication using our codes.
 
